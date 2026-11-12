@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+jobs_*.csv
+descriptions/
+pay_histogram.png
+.DS_Store
