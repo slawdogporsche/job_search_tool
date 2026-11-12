@@ -1,0 +1,262 @@
+[
+ {
+  "platform": "greenhouse",
+  "token": "oscar",
+  "name": "Oscar Health"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "cloverhealth",
+  "name": "Clover Health"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "collectivehealth",
+  "name": "Collective Health"
+ },
+ {
+  "platform": "ashby",
+  "token": "collective",
+  "name": "Collective Health"
+ },
+ {
+  "platform": "ashby",
+  "token": "gravie",
+  "name": "Gravie"
+ },
+ {
+  "platform": "lever",
+  "token": "sanabenefits",
+  "name": "Sana Benefits"
+ },
+ {
+  "platform": "lever",
+  "token": "aledade",
+  "name": "Aledade"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "onemedical",
+  "name": "One Medical"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "strivehealth",
+  "name": "Strive Health"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "mainstreethealth",
+  "name": "Main Street Health"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "papa",
+  "name": "Papa"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "honor",
+  "name": "Honor"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "imaginepediatrics",
+  "name": "Imagine Pediatrics"
+ },
+ {
+  "platform": "lever",
+  "token": "ro",
+  "name": "Ro"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "tia",
+  "name": "Tia"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "parsleyhealth",
+  "name": "Parsley Health"
+ },
+ {
+  "platform": "lever",
+  "token": "includedhealth",
+  "name": "Included Health"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "amwell",
+  "name": "Amwell"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "garnerhealth",
+  "name": "Garner Health"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "wellthy",
+  "name": "Wellthy"
+ },
+ {
+  "platform": "lever",
+  "token": "quantum-health",
+  "name": "Quantum Health"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "rightway",
+  "name": "Rightway"
+ },
+ {
+  "platform": "lever",
+  "token": "capital",
+  "name": "Capital Rx"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "judihealth",
+  "name": "Judi Health"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "smithrx",
+  "name": "SmithRx"
+ },
+ {
+  "platform": "ashby",
+  "token": "turquoise-health",
+  "name": "Turquoise Health"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "coherehealth",
+  "name": "Cohere Health"
+ },
+ {
+  "platform": "lever",
+  "token": "ribbon",
+  "name": "Ribbon Health"
+ },
+ {
+  "platform": "ashby",
+  "token": "cedar",
+  "name": "Cedar"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "swordhealth",
+  "name": "Sword Health"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "omadahealth",
+  "name": "Omada Health"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "mavenclinic",
+  "name": "Maven Clinic"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "carrotfertility",
+  "name": "Carrot Fertility"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "calm",
+  "name": "Calm"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "talkspace",
+  "name": "Talkspace"
+ },
+ {
+  "platform": "lever",
+  "token": "lyrahealth",
+  "name": "Lyra Health"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "modernhealth",
+  "name": "Modern Health"
+ },
+ {
+  "platform": "ashby",
+  "token": "grow-therapy",
+  "name": "Grow Therapy"
+ },
+ {
+  "platform": "ashby",
+  "token": "rula",
+  "name": "Rula"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "flatironhealth",
+  "name": "Flatiron Health"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "komodohealth",
+  "name": "Komodo Health"
+ },
+ {
+  "platform": "lever",
+  "token": "veeva",
+  "name": "Veeva"
+ },
+ {
+  "platform": "lever",
+  "token": "zushealth",
+  "name": "Zus Health"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "elationhealth",
+  "name": "Elation Health"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "healthie",
+  "name": "Healthie"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "doximity",
+  "name": "Doximity"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "zocdoc",
+  "name": "Zocdoc"
+ },
+ {
+  "platform": "ashby",
+  "token": "abridge",
+  "name": "Abridge"
+ },
+ {
+  "platform": "ashby",
+  "token": "ambiencehealthcare",
+  "name": "Ambience Healthcare"
+ },
+ {
+  "platform": "greenhouse",
+  "token": "truveta",
+  "name": "Truveta"
+ },
+ {
+  "platform": "lever",
+  "token": "arcadia",
+  "name": "Arcadia"
+ },
+ {
+  "platform": "lever",
+  "token": "pointclickcare",
+  "name": "PointClickCare"
+ }
+]

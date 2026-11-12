@@ -1,0 +1,111 @@
+# One company per line. Lines starting with # are ignored.
+Oscar Health
+Clover Health
+Alignment Healthcare
+Devoted Health
+Bright Health
+Collective Health
+Centivo
+Gravie
+Sana Benefits
+Curative
+Aledade
+agilon health
+Privia Health
+Evolent Health
+Lumeris
+Cityblock Health
+Oak Street Health
+One Medical
+Carbon Health
+Strive Health
+CareBridge
+Signify Health
+Main Street Health
+Papa
+Honor
+Imagine Pediatrics
+Ro
+Tia
+Parsley Health
+Cerebral
+Included Health
+Teladoc
+Amwell
+Transcarent
+Accolade
+Garner Health
+Wellthy
+Quantum Health
+CirrusMD
+Rightway
+Capital Rx
+Judi Health
+SmithRx
+Turquoise Health
+Cohere Health
+Ribbon Health
+Cedar
+Waystar
+Hinge Health
+Sword Health
+Omada Health
+Virta Health
+Maven Clinic
+Progyny
+Carrot Fertility
+Kindbody
+Livongo
+Noom
+Hims Hers
+Sharecare
+Headspace
+Calm
+Talkspace
+Lyra Health
+Spring Health
+Modern Health
+Headway
+Alma
+Grow Therapy
+Rula
+SonderMind
+Thriveworks
+Brightside
+Ginger
+Flatiron Health
+Tempus
+Komodo Health
+Veeva
+Health Catalyst
+Innovaccer
+Datavant
+Zus Health
+Elation Health
+Healthie
+Redox
+Particle Health
+Health Gorilla
+Doximity
+Zocdoc
+Healthgrades
+Commure
+Abridge
+Ambience Healthcare
+Nabla
+Color Health
+Truveta
+Arcadia
+PointClickCare
+athenahealth
+Ursa Health
+Bamboo Health
+WebPT
+Ovation
+Dario Health
+Welltok
+Evernorth
+Premier Inc
+Zelis
+Gainwell
+Optum

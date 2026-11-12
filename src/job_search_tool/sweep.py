@@ -13,7 +13,8 @@ Usage:
 Output: jobs_YYYY-MM-DD.csv, plus descriptions/ folder with one .txt per job
 (so you can hand a description straight to Claude for resume tailoring).
 """
-import argparse, csv, html, os, re, sys, time
+import argparse, csv, html, json, os, re, sys, time
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 
 import requests
@@ -26,6 +27,14 @@ import requests
 # Only includedhealth was confirmed. Use --discover to verify/find the rest.
 BOARDS = [
     ("lever", "includedhealth", "Included Health"),
+    ("greenhouse", "oscar", "Oscar Health"),
+    ("lever", "lyrahealth", "Lyra Health"),
+    ("greenhouse", "mavenclinic", "Maven Clinic"),
+    ("greenhouse", "swordhealth", "Sword Health"),
+    ("lever", "aledade", "Aledade"),
+    ("greenhouse", "zocdoc", "Zocdoc"),
+    ("greenhouse", "doximity", "Doximity"),
+    ("greenhouse", "flatironhealth", "Flatiron Health"),
     # ("greenhouse", "oscar", "Oscar Health"),        # unverified
     # ("greenhouse", "evolent", "Evolent"),           # unverified
 ]
@@ -158,26 +167,62 @@ def slug_variants(name):
     base = re.sub(r"[^a-z0-9 ]", "", name.lower())
     return list(dict.fromkeys([base.replace(" ", ""), base.replace(" ", "-"), base.split()[0]]))
 
-def discover(names):
-    print("Probing Greenhouse / Lever / Ashby for each name...\n")
-    for name in names:
-        found = False
-        for slug in slug_variants(name):
-            for plat, fn in FETCHERS.items():
-                try:
-                    n = sum(1 for _ in fn(slug))
-                except Exception:
-                    continue
-                if n:
-                    print(f'  ("{plat}", "{slug}", "{name}"),   # {n} open jobs')
-                    found = True
-        if not found:
-            print(f"  # {name}: no match on the 3 platforms (likely Workday/iCIMS/own site - check manually)")
-        time.sleep(0.5)
+def _probe(name):
+    """Try every slug variant on every platform; return the first hit per platform."""
+    variants = slug_variants(name)
+    short = variants[-1] if " " in name.strip() else None
+    hits = []
+    for plat, fn in FETCHERS.items():
+        for slug in variants:
+            try:
+                jobs = list(fn(slug))
+            except Exception:
+                continue
+            if jobs:
+                hits.append(dict(platform=plat, token=slug, name=name, n=len(jobs),
+                                 sample=[j["title"] for j in jobs[:3]],
+                                 short=(slug == short)))
+                break
+    return name, hits
 
-def sweep(min_pay, outdir, show_all=False):
+def load_names(path):
+    with open(path) as f:
+        return [l.strip() for l in f if l.strip() and not l.startswith("#")]
+
+def load_boards(path):
+    boards = list(BOARDS)
+    if path and os.path.exists(path):
+        have = {(p, t) for p, t, _ in boards}
+        for b in json.load(open(path)):
+            if (b["platform"], b["token"]) not in have:
+                boards.append((b["platform"], b["token"], b["name"]))
+    return boards
+
+def discover(names, outfile=None, workers=6):
+    print(f"Probing {len(names)} companies on Greenhouse / Lever / Ashby...\n")
+    found, missed = [], []
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        for name, hits in ex.map(_probe, names):
+            if not hits:
+                missed.append(name)
+                continue
+            for h in hits:
+                flag = "  <-- short slug, verify it's the right company" if h["short"] else ""
+                print(f"  {h['name']:28s} {h['platform']:10s} {h['token']:24s} {h['n']:4d} jobs  e.g. {h['sample'][0]}{flag}")
+                found.append(h)
+    print(f"\n{len(found)} boards found for {len(names) - len(missed)} companies.")
+    print("No match (likely Workday/iCIMS/own site):", ", ".join(missed) or "none")
+    if outfile:
+        old = json.load(open(outfile)) if os.path.exists(outfile) else []
+        have = {(b["platform"], b["token"]) for b in old}
+        old += [dict(platform=h["platform"], token=h["token"], name=h["name"])
+                for h in found if (h["platform"], h["token"]) not in have]
+        json.dump(old, open(outfile, "w"), indent=1)
+        print(f"Saved {len(old)} boards -> {outfile}")
+
+def sweep(min_pay, outdir, show_all=False, boards=BOARDS):
     rows, failed = [], []
-    for plat, token, name in BOARDS:
+    for plat, token, name in boards:
         try:
             jobs = list(FETCHERS[plat](token))
         except Exception as e:
@@ -224,11 +269,17 @@ def sweep(min_pay, outdir, show_all=False):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--discover", nargs="+", metavar="COMPANY")
+    ap.add_argument("--discover-file", metavar="FILE", help="text file, one company name per line")
+    ap.add_argument("--boards-file", default="data/boards.json", help="where discovered boards are saved/loaded")
     ap.add_argument("--min-pay", type=int, default=0, help="drop jobs whose max pay is below this")
     ap.add_argument("--all", action="store_true", help="skip title/location filters; keep every job")
-    ap.add_argument("--out", default=".")
+    ap.add_argument("--out", default="output")
     a = ap.parse_args()
-    if a.discover:
-        discover(a.discover)
+    if a.discover_file:
+        discover(load_names(a.discover_file), a.boards_file)
+    elif a.discover:
+        discover(a.discover, a.boards_file)
     else:
-        sweep(a.min_pay, a.out, a.all)
+        boards = load_boards(a.boards_file)
+        print(f"Sweeping {len(boards)} boards\n")
+        sweep(a.min_pay, a.out, a.all, boards)
