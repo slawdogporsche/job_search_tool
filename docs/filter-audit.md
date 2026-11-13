@@ -1,20 +1,37 @@
 # Auditing job filtering
 
-Create a diagnostic sample of kept and rejected postings. It is important to include rejected jobs to identify false negatives. Start with your all-roles sweep, then compare against the shortlist:
+This tool audits **the combined sweep + shortlist filtering pipeline** using human labels. It does not change production filters or establish that the filters are accurate.
+
+## Generate review samples
+
+Run a broad sweep **without** `--min-pay`, then shortlist from that same file:
 
 ```sh
 python -m job_search_tool.sweep --all --out output
 python -m job_search_tool.shortlist --out output
-python -m job_search_tool.filter_audit sample --all output/jobs_YYYY-MM-DD.csv --selected output/shortlist.csv --per-group 30
+python -m job_search_tool.filter_audit sample --all output/jobs_YYYY-MM-DD.csv --selected output/shortlist.csv --per-group 30 --seed 7
 ```
 
-Replace YYYY-MM-DD with your actual sweep date. Review output/filter_review.csv, label human_relevant as yes/no, and describe the reasoning in the reason column. Then run:
+Replace `YYYY-MM-DD` with the actual sweep date. Keep the two inputs from the **same dataset and run**. If any selected job is absent from the all-jobs file, the tool fails instead of silently misclassifying it. Duplicate job identifiers are sampled once. The identifier prioritizes URL, then source ID, then company/title/location; URL variations or reuse can still cause mismatches.
+
+Review `output/filter_review.csv`. Set `human_relevant` to `yes` or `no` for each job, and use `reason` to explain the judgment. Blank labels are ignored; invalid values generate errors.
 
 ```sh
 python -m job_search_tool.filter_audit report --review output/filter_review.csv
 pytest tests/test_filter_audit.py
 ```
 
-Evaluate title exclusions, geographic/remote eligibility, salary policy (maximum versus minimum), and seniority. Note that --all still applies the sweep's minimum-pay filter if specified: omit --min-pay for this baseline.
+The report displays true positives, false positives, false negatives, true negatives, and **sample-only** precision/recall. If there is no denominator, the metric is `null` rather than a fabricated 0%.
 
-**Important:** These are diagnostic sample metrics, not unbiased population estimates. The stratified sample intentionally oversamples the relatively rare accepted/rejected group. Also, comparing the broad all-jobs sweep to shortlist captures the combination of upstream and shortlist rules, not the accuracy of each stage independently. Don't change production screening thresholds until real postings have been reviewed.
+## Interpretation and limitations
+
+- Included and excluded samples are independently sampled (up to the per-group limit); this **case-control design is not proportional to the population**. Reported precision/recall are diagnostic sample statistics, *not unbiased estimates of actual filter performance*. For population estimates, weight by group sizes and use an appropriate sampling design.
+- Comparing the unfiltered sweep to the shortlist tests the **combined** rules, not each filtering stage independently.
+- Human labels require a consistent relevance rubric, ideally reviewed by more than one evaluator in ambiguous cases.
+- This utility will not find opportunities missing from the scraped boards in the first place; it only analyzes observed jobs.
+- Check exclusions by title, seniority, geography/remote eligibility, and salary policy (the shortlist filters by **maximum** advertised pay).
+- Do not change production thresholds until actual postings are labeled and reviewed.
+
+## Verification
+
+The targeted unit suite covers inclusion/exclusion classification, repeatable sampling, TP/FP/FN/TN math, blank/invalid labels, empty samples and zero denominators, duplicate jobs, mismatched datasets, and the CLI round-trip.
